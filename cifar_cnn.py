@@ -3,8 +3,10 @@ import keras
 from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Dense, Dropout, Activation, Flatten, Lambda
 from keras.layers import Conv2D, MaxPooling2D
+from keras import backend as K
+
 import os
 
 batch_size = 32
@@ -46,7 +48,7 @@ model.add(Dense(512))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes))
-model.add(Activation('softmax'))
+model.add(Lambda(lambda x: K.tf.nn.softmax(x)))
 
 # initiate RMSprop optimizer
 opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
